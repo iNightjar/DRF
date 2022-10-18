@@ -7,15 +7,16 @@ import requests
 
 
 # do request though python clint to the django project
-endpoint = "http://localhost:8000/api"
+endpoint = "http://localhost:8000/api/"
 
-get_response = requests.get(endpoint, json={"query": "hello world"})  # API Application programming interface
+get_response = requests.get(endpoint, json={"query":123})  # API Application programming interface
 
+# params = {"abc": 123},
 # print(get_response.text)  # print the raw text response code
 
-print(get_response.json()['message']) # print in json format
+print(get_response.json()) # print in json format
 
-print(get_response.status_code)
+# print(get_response.status_code)
 
 # HTTP Request > HMTL
 # Rest API HTTP Request > JSON
