@@ -4,14 +4,16 @@ import requests
 # endpoints is like url but many actauly, working with restframework,
 # we will have alot of endpoint with the project
 # endpoint = "https://httpbin.org/status/200/"
-endpoint = "https://httpbin.org/anything"
 
+
+# do request though python clint to the django project
+endpoint = "http://localhost:8002/"
 
 get_response = requests.get(endpoint, json={"query": "hello world"})  # API Application programming interface
 
 print(get_response.text)  # print the raw text response code
 
-print(get_response.json()) # print in json format
+# print(get_response.json()) # print in json format
 
 print(get_response.status_code)
 
