@@ -1,9 +1,11 @@
 from email import header
 import json
+from telnetlib import STATUS
 from tkinter import filedialog
 from urllib import response
 from django.forms.models import model_to_dict
-from django.http import JsonResponse, HttpResponse  # it's built in with django. cool
+from django.http import JsonResponse, HttpResponse
+# from backend.products import serializers  # it's built-in with django. cool
 from products.models import products
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -20,13 +22,17 @@ def api_home(request, *args, **kwargs):
     # # doing it with django
     # if request.method != "POST":
     #     return Response({"detial": "GET is not allowed"}, status=405)
-    instance = products.objects.all().order_by("?").first()
-    data = {}
-    if instance:
-        # data = model_to_dict(instance, fields=['id', 'title', 'price', 'saled_price'])
-        data = productSerializer(instance).data
-    return Response(data)
-       
+    # data = request.data
+    # return JsonResponse(data)
+
+    serializer = productSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        # instance= serialzier.save()
+        # istancee is like form.save()
+        print(serializer.data)
+        return JsonResponse(serializer.data)
+    
+    return Response({"invalid data" : "not good data"}, status=400)
        
        
        

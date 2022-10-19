@@ -10,13 +10,13 @@ import requests
 endpoint = "http://localhost:8000/api/"
 
 get_response = requests.get(endpoint, json={
-                            "product_id": 123})  # API Application programming interface
+                            "title":"abc123", "content": "Hello world", "price": "abc1234"})  # API Application programming interface
 
 # params = {"abc": 123},
 # print(get_response.headers)
-# print(get_response.text)  # print the raw text response code
+print(get_response.text)  # print the raw text response code
 
-print(get_response.json()) # print in json format
+# print(get_response.json()) # print in json format
 
 # print(get_response.status_code)
 
