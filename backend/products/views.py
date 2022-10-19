@@ -3,18 +3,18 @@ from .models import products
 from .serializers import productSerializer
 
 
-class productsList(generics.ListCreateAPIView):
-    """
-    All products
-    """
-    queryset = products.objects.all()
-    serializer_class = productSerializer
-    # lookup_field = 'pk'
-    # product.objects.get(pk=1)
-    # product.objects.get(pk="abc") - > invalid lookup
+# class productsList(generics.ListCreateAPIView):
+#     """
+#     All products - > wount be used
+#     """
+#     queryset = products.objects.all()
+#     serializer_class = productSerializer
+#     # lookup_field = 'pk'
+#     # product.objects.get(pk=1)
+#     # product.objects.get(pk="abc") - > invalid lookup
 
 
-class productDetailAPIView(generics.RetrieveAPIView):
+class productDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     All product details .. 
     """
@@ -22,7 +22,7 @@ class productDetailAPIView(generics.RetrieveAPIView):
     serializer_class = productSerializer
 
 
-class productCreateAPIView(generics.CreateAPIView):
+class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
 
@@ -34,7 +34,4 @@ class productCreateAPIView(generics.CreateAPIView):
         if content is None:
             content = title
 
-        serializer.save(content = content)
-
-
-product_create_view = productCreateAPIView.as_view()
+        serializer.save(content=content)
