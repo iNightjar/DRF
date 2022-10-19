@@ -15,4 +15,9 @@ class productSerializer(serializers.ModelSerializer):
         """
         obj.user - > user.username
         """
+        if not hasattr(obj, 'id'):
+            return None
+        if not isinstance(obj, products):
+            return None
+
         return obj.get_discount()
