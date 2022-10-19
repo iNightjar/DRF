@@ -7,6 +7,7 @@ from django.http import JsonResponse, HttpResponse  # it's built in with django.
 from products.models import products
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from products.serializers import productSerializer
 
 
 # Actual django models using!!
@@ -19,12 +20,12 @@ def api_home(request, *args, **kwargs):
     # # doing it with django
     # if request.method != "POST":
     #     return Response({"detial": "GET is not allowed"}, status=405)
-    model_data = products.objects.all().order_by("?").first()
+    instance = products.objects.all().order_by("?").first()
     data = {}
-    if model_data:
-        data = model_to_dict(model_data, fields=['id', 'title', 'price'])
+    if instance:
+        # data = model_to_dict(instance, fields=['id', 'title', 'price', 'saled_price'])
+        data = productSerializer(instance).data
     return Response(data)
-       
        
        
        
