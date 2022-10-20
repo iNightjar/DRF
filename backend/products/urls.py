@@ -3,11 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.productCreateListAPIView.as_view()),
 
-    path('<int:pk>/', views.productDetailsAPIView.as_view()),
-
-    # path('listall/', views.productsList.as_view()),
-
-
+    # FBV -> create_list_FBV
+    path('', views.product_list_create_view),
+    path('<int:pk>/', views.product_detail_view),
 ]
