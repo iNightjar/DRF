@@ -80,5 +80,3 @@ def create_list_FBV(request, pk=None, *args, **kwargs):
 
 
 
-
-"""Creating full crud using FBV"""
