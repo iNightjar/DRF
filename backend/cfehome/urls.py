@@ -23,6 +23,9 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('api/products/', include('products.urls')), 
 
+
+    # shopping website
+    path('shop/', include('items.urls')),
 ]
 
 
