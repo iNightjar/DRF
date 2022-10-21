@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 from .models import products
 from .serializers import productSerializer
 from rest_framework.decorators import api_view
@@ -7,49 +7,6 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 
-class productDetailsAPIView(generics.RetrieveAPIView):
-    """
-    All product Detials .. You can Modify Or Delete 
-    """
-    queryset = products.objects.all()
-    serializer_class = productSerializer
-
-# instance for shortcuting : urls
-product_detail_view = productDetailsAPIView.as_view()
-
-
-class productUpdateAPIView(generics.UpdateAPIView):
-    """
-    Update Product 
-    """
-    queryset = products.objects.all()
-    serializer_class = productSerializer
-    lookup_field = 'pk'
-
-    def perform_update(self, serializer):
-        instance= serializer.save()
-        
-        # contect = title if not content
-        if not instance.content:
-            instance.content = instance.title
-
-# instance for shortcuting : urls
-product_update_view = productUpdateAPIView.as_view()
-
-
-class productDeleteAPIView(generics.DestroyAPIView):
-    """
-    Delete Product 
-    """
-    queryset = products.objects.all()
-    serializer_class = productSerializer
-
-    def perform_delete(self, instance):
-        super().perform_destroy(instance)
-        
-
-# instance for shortcuting : urls
-product_delete_view = productDeleteAPIView.as_view()
 
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
@@ -64,8 +21,94 @@ class productCreateListAPIView(generics.ListCreateAPIView):
             content = title
 
         serializer.save(content=content)
+
+
+# instance for shortcuting : urls
 product_list_create_view = productCreateListAPIView.as_view()
 
+
+class productDetailsAPIView(generics.RetrieveAPIView):
+    """
+    All product Detials ..
+    """
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+
+
+# instance for shortcuting : urls
+product_detail_view = productDetailsAPIView.as_view()
+
+
+class productUpdateAPIView(generics.UpdateAPIView):
+    """
+    Update Product 
+    """
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+
+        # contect = title if not content
+        if not instance.content:
+            instance.content = instance.title
+
+
+# instance for shortcuting : urls
+product_update_view = productUpdateAPIView.as_view()
+
+
+class productDeleteAPIView(generics.DestroyAPIView):
+    """
+    Delete Product 
+    """
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+
+    def perform_delete(self, instance):
+        super().perform_destroy(instance)
+
+
+# instance for shortcuting : urls
+product_delete_view = productDeleteAPIView.as_view()
+
+
+class productMixinView(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+    lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):  # HTTP -> get
+        # print(args, kwargs) # checking args and kwargs of retreived instance
+        pk = kwargs.get('pk')
+        if pk is not None:
+            return self.retrieve(request,  *args, **kwargs)
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        title = serializer.validated_data.get('title')
+        content = serializer.validated_data.get('content') or None
+        if content is None:
+            content = "product initial content"
+        serializer.save(content=content)
+
+
+# instance for shortcut
+product_mixin_view = productMixinView.as_view()
+
+
+"""The biggest difference bitween CBV and FBV is that we don't write conditions for the methods,
+    we actually write function for the request methods"""
 
 
 
