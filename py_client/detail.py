@@ -2,7 +2,7 @@ import requests
 
 
 # do request though python clint to the django project
-endpoint = "http://localhost:8000/api/products/"  # list all the products
+endpoint = "http://localhost:8000/api/products/10/"  # list all the products
 
 
 
