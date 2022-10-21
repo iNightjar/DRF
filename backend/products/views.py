@@ -5,16 +5,51 @@ from rest_framework.decorators import api_view
 # from django.http import Http404
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework import serializers
 
-class productDetailsAPIView(generics.RetrieveUpdateDestroyAPIView):
+class productDetailsAPIView(generics.RetrieveAPIView):
     """
     All product Detials .. You can Modify Or Delete 
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
 
+# instance for shortcuting : urls
 product_detail_view = productDetailsAPIView.as_view()
 
+
+class productUpdateAPIView(generics.UpdateAPIView):
+    """
+    Update Product 
+    """
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        instance= serializer.save()
+        
+        # contect = title if not content
+        if not instance.content:
+            instance.content = instance.title
+
+# instance for shortcuting : urls
+product_update_view = productUpdateAPIView.as_view()
+
+
+class productDeleteAPIView(generics.DestroyAPIView):
+    """
+    Delete Product 
+    """
+    queryset = products.objects.all()
+    serializer_class = productSerializer
+
+    def perform_delete(self, instance):
+        super().perform_destroy(instance)
+        
+
+# instance for shortcuting : urls
+product_delete_view = productDeleteAPIView.as_view()
 
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
@@ -30,6 +65,9 @@ class productCreateListAPIView(generics.ListCreateAPIView):
 
         serializer.save(content=content)
 product_list_create_view = productCreateListAPIView.as_view()
+
+
+
 
 # first creating FBV for create and list
 # all crud in FBV
@@ -66,17 +104,3 @@ def create_list_FBV(request, pk=None, *args, **kwargs):
             serializer.save(content=content)
             return Response(serializer.data)
         return Response({"invalid": "not good data"}, status=400)
-
-
-# class productsList(generics.ListCreateAPIView):
-#     """
-#     All products - > wount be used
-#     """
-#     queryset = products.objects.all()
-#     serializer_class = productSerializer
-#     # lookup_field = 'pk'
-#     # product.objects.get(pk=1)
-#     # product.objects.get(pk="abc") - > invalid lookup
-
-
-
