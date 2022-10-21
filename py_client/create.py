@@ -5,7 +5,7 @@ import requests
 endpoint = "http://localhost:8000/api/products/"
 
 data = {
-    "title": "Smart Watch",
+    "title": "visual studio code",
 
     "price": "101002",
 }
