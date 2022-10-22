@@ -1,4 +1,4 @@
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, permissions, authentication
 from .models import products
 from .serializers import productSerializer
 from rest_framework.decorators import api_view
@@ -11,6 +11,8 @@ from rest_framework import serializers
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.DjangoModelPermissions]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
@@ -45,6 +47,7 @@ class productUpdateAPIView(generics.UpdateAPIView):
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
+    permission_classes = [permissions.DjangoModelPermissions]
     lookup_field = 'pk'
 
     def perform_update(self, serializer):
