@@ -74,7 +74,12 @@ class productDeleteAPIView(StaffEditorPermissionMixin, generics.DestroyAPIView):
 product_delete_view = productDeleteAPIView.as_view()
 
 
-class productMixinView(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, generics.GenericAPIView):
+class productMixinView(mixins.ListModelMixin,
+                       mixins.CreateModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin,
+                       mixins.RetrieveModelMixin,
+                       generics.GenericAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
     lookup_field = 'pk'
