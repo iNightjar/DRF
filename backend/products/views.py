@@ -13,8 +13,9 @@ from api.authentication import TokenAuthentication
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
-    authentication_classes = [TokenAuthentication,
-                              authentication.SessionAuthentication]
+    # no need for this anymore, it's defined now in settings.py
+    # authentication_classes = [TokenAuthentication,
+    #                           authentication.SessionAuthentication]
     permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
 
     def perform_create(self, serializer):
@@ -38,6 +39,8 @@ class productDetailsAPIView(generics.RetrieveAPIView):
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
+    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
+
 
 
 # instance for shortcuting : urls
@@ -50,7 +53,9 @@ class productUpdateAPIView(generics.UpdateAPIView):
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-    permission_classes = [permissions.DjangoModelPermissions]
+    # permission_classes = [permissions.DjangoModelPermissions]
+    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
+
     lookup_field = 'pk'
 
     def perform_update(self, serializer):
@@ -71,6 +76,8 @@ class productDeleteAPIView(generics.DestroyAPIView):
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
+    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
+
 
     def perform_delete(self, instance):
         super().perform_destroy(instance)
