@@ -1,22 +1,15 @@
-from rest_framework import generics, mixins, permissions, authentication
+from rest_framework import generics, mixins
 from .models import products
 from .serializers import productSerializer
 from rest_framework.decorators import api_view
-# from django.http import Http404
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from rest_framework import serializers
-from .permissions import isStaffEditorPermission
-from api.authentication import TokenAuthentication
+from api.mixins import StaffEditorPermissionMixin
 
 
-class productCreateListAPIView(generics.ListCreateAPIView):
+class productCreateListAPIView(StaffEditorPermissionMixin, generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
-    # no need for this anymore, it's defined now in settings.py
-    # authentication_classes = [TokenAuthentication,
-    #                           authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
@@ -33,28 +26,24 @@ class productCreateListAPIView(generics.ListCreateAPIView):
 product_list_create_view = productCreateListAPIView.as_view()
 
 
-class productDetailsAPIView(generics.RetrieveAPIView):
+class productDetailsAPIView(StaffEditorPermissionMixin, generics.RetrieveAPIView):
     """
     All product Detials ..
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
-
 
 
 # instance for shortcuting : urls
 product_detail_view = productDetailsAPIView.as_view()
 
 
-class productUpdateAPIView(generics.UpdateAPIView):
+class productUpdateAPIView(StaffEditorPermissionMixin, generics.UpdateAPIView):
     """
     Update Product 
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-    # permission_classes = [permissions.DjangoModelPermissions]
-    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
 
     lookup_field = 'pk'
 
@@ -70,14 +59,12 @@ class productUpdateAPIView(generics.UpdateAPIView):
 product_update_view = productUpdateAPIView.as_view()
 
 
-class productDeleteAPIView(generics.DestroyAPIView):
+class productDeleteAPIView(StaffEditorPermissionMixin, generics.DestroyAPIView):
     """
     Delete Product 
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
-
 
     def perform_delete(self, instance):
         super().perform_destroy(instance)
@@ -122,7 +109,6 @@ product_mixin_view = productMixinView.as_view()
 
 """The biggest difference bitween CBV and FBV is that we don't write conditions for the methods,
     we actually write function for the request methods"""
-
 
 
 # first creating FBV for create and list
