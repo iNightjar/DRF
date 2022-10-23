@@ -1,4 +1,3 @@
-from re import I
 from rest_framework import generics, mixins, permissions, authentication
 from .models import products
 from .serializers import productSerializer
@@ -8,11 +7,14 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .permissions import isStaffEditorPermission
+from api.authentication import TokenAuthentication
+
 
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [TokenAuthentication,
+                              authentication.SessionAuthentication]
     permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
 
     def perform_create(self, serializer):
