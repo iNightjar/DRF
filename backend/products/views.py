@@ -6,13 +6,16 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from .permissions import isStaffEditorPermission
+from api.authentication import TokenAuthentication
 
 
 class productCreateListAPIView(generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.DjangoModelPermissions]
+    authentication_classes = [TokenAuthentication,
+                              authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser, isStaffEditorPermission]
 
     def perform_create(self, serializer):
         # serializer.save(user=self.request.user)
