@@ -1,4 +1,3 @@
-from types import MappingProxyType
 from django.urls import path
 from . import views
 

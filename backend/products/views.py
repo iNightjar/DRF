@@ -143,8 +143,9 @@ def create_list_FBV(request, pk=None, *args, **kwargs):
     if method == "POST":
         serializer = productSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            title = serializer.validated_data.get('title')
-            content = serializer.validated_data.get('content') or None
+            title = serializer.validated_data.get('title')  # type: ignore
+            content = serializer.validated_data.get(        # type: ignore
+                'content') or None
             if content is None:
                 content = title
             serializer.save(content=content)
