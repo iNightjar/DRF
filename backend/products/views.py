@@ -4,28 +4,42 @@ from .serializers import productSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from api.mixins import StaffEditorPermissionMixin
+from api.mixins import (StaffEditorPermissionMixin,
+                        UserQuerySetMixin)
 
 
-class productCreateListAPIView(StaffEditorPermissionMixin, generics.ListCreateAPIView):
+class productCreateListAPIView(StaffEditorPermissionMixin,
+                               UserQuerySetMixin,
+                               generics.ListCreateAPIView):
     queryset = products.objects.all()
     serializer_class = productSerializer
+    lookup_field = 'pk'
 
     def perform_create(self, serializer):
-        # serializer.save(user=self.request.user)
         title = serializer.validated_data.get('title')
         content = serializer.validated_data.get('content') or None
+        
         if content is None:
             content = title
+        # very similar to form.save(), model.save()
+        serializer.save(user=self.request.user, content=content)
 
-        serializer.save(content=content)  # very similar to form.save(), model.save()
+    # def get_queryset(self, *args, **kwargs):
+    #     qs = super().get_queryset(*args, **kwargs)
+    #     request = self.request
+    #     user = request.user
+    #     if not user.is_authenticated:
+    #         return products.objects.none()
+    #     return qs.filter(user=request.user)
 
 
 # instance for shortcuting : urls
 product_list_create_view = productCreateListAPIView.as_view()
 
 
-class productDetailsAPIView(StaffEditorPermissionMixin, generics.RetrieveAPIView):
+class productDetailsAPIView(UserQuerySetMixin,
+                            StaffEditorPermissionMixin,
+                            generics.RetrieveAPIView):
     """
     All product Detials ..
     """
@@ -37,7 +51,9 @@ class productDetailsAPIView(StaffEditorPermissionMixin, generics.RetrieveAPIView
 product_detail_view = productDetailsAPIView.as_view()
 
 
-class productUpdateAPIView(StaffEditorPermissionMixin, generics.UpdateAPIView):
+class productUpdateAPIView(UserQuerySetMixin,
+                           StaffEditorPermissionMixin,
+                           generics.UpdateAPIView):
     """
     Update Product 
     """
@@ -58,7 +74,9 @@ class productUpdateAPIView(StaffEditorPermissionMixin, generics.UpdateAPIView):
 product_update_view = productUpdateAPIView.as_view()
 
 
-class productDeleteAPIView(StaffEditorPermissionMixin, generics.DestroyAPIView):
+class productDeleteAPIView(UserQuerySetMixin,
+                           StaffEditorPermissionMixin,
+                           generics.DestroyAPIView):
     """
     Delete Product 
     """
