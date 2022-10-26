@@ -13,16 +13,16 @@ class productSerializer(serializers.ModelSerializer):
     # email = serializers.EmailField(write_only=True)
     title = serializers.CharField(validators=[validators.validate_title_no_hello,
                                               validators.unique_product_title])
-    # name = serializers.CharField(source='title', read_only=True)
+    name = serializers.CharField(source='title', read_only=True)
     class Meta:
         model = products
         fields = [
-            # 'user',
+            'user',
             'url',
             'edit_url',
             'pk',
             'title',
-            # 'name',
+            'name',
             'content',
             'price',
             'my_discount'
