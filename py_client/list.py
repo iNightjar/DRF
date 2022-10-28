@@ -22,4 +22,10 @@ if auth_response.status_code == 200:
 
     # API Application programming interface
     get_response = requests.get(endpoint, headers=headers)
-    print(get_response.text)
+    data = get_response.json()
+    next_url = data['next']
+    results = data['results']
+    print("next_url", next_url)
+    print(results)
+
+
