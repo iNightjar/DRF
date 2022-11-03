@@ -13,3 +13,17 @@ class UserProductInlineSerializer(serializers.Serializer):
 class UserPublicSerializer(serializers.Serializer):
     username = serializers.CharField(read_only=True)
     id = serializers.IntegerField(read_only=True)
+    # other_products = serializers.SerializerMethodField(read_only=True)
+
+    # class Meta:
+    #     model = User
+    #     fields = [
+    #         'username',
+    #         'this_is_not_real',
+    #         'id'
+    #     ]
+
+    # def get_other_products(self, obj):
+    #     user = obj
+    #     my_products_qs = user.product_set.all()[:5]
+    #     return UserProductInlineSerializer(my_products_qs, many=True, context=self.context).data
