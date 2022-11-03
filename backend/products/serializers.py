@@ -27,7 +27,11 @@ class productSerializer(serializers.ModelSerializer):
             'price',
 
         ]
-
+    def get_my_user_data(self, obj):
+        return {
+            "username": obj.user.username
+        }
+    
     def get_edit_url(self, obj):
         # return f"/api/v2/products/{obj.pk}/"
         request = self.context.get('request')  # serlf.request
