@@ -45,7 +45,7 @@ class productDetailsAPIView(UserQuerySetMixin,
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-
+    # lookup_field = 'pk' ??
 
 # instance for shortcuting : urls
 product_detail_view = productDetailsAPIView.as_view()
@@ -82,7 +82,7 @@ class productDeleteAPIView(UserQuerySetMixin,
     """
     queryset = products.objects.all()
     serializer_class = productSerializer
-
+    lookup_field = 'pk'
     def perform_delete(self, instance):
         super().perform_destroy(instance)
 
