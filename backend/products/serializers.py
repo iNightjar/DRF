@@ -25,6 +25,8 @@ class productSerializer(serializers.ModelSerializer):
             'title',
             'content',
             'price',
+            'public',
+            
 
         ]
     def get_my_user_data(self, obj):
