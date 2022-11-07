@@ -1,9 +1,13 @@
+import random
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 # Create your models here.
 
 User = settings.AUTH_USER_MODEL # auth.User
+
+
+tags_model_values = ['electronics', 'cars','boats','movies','cameras']
 
 
 class ProductQuerySet(models.QuerySet):
@@ -45,3 +49,9 @@ class products(models.Model):
 
     def get_discount(self):
         return "123"
+
+    def is_public(self) -> bool: 
+        return self.public # True or False
+
+    def get_tags_list(self):
+        return [random.choice(tags_model_values)]
