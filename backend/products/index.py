@@ -5,7 +5,7 @@ from algoliasearch_django.decorators import register
 
 @register(products)
 class ProductIndex(AlgoliaIndex):
-    should_index = 'is_public'
+    # should_index = 'is_public'
     fields = [
         'title',
         'content',
