@@ -15,6 +15,8 @@ class productSerializer(serializers.ModelSerializer):
     title = serializers.CharField(validators=[validators.validate_title_no_hello,
                                               validators.unique_product_title])
 
+
+    body = serializers.CharField(source='content')
     class Meta:
         model = products
         fields = [
@@ -23,11 +25,9 @@ class productSerializer(serializers.ModelSerializer):
             'edit_url',
             'pk',
             'title',
-            'content',
+            'body',
             'price',
             'public',
-            
-
         ]
     def get_my_user_data(self, obj):
         return {
