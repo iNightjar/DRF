@@ -44,6 +44,8 @@ class products(models.Model):
     objects= ProductManager()
 
     @property
+    def body(self):
+        return self.content
     def saled_price(self):
         return "%.2f" % (float(self.price) * 0.8)
 
