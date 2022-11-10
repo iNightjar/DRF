@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,12 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
-    'products',
+
+    # third party api services
+    'algoliasearch_django',
+
+    # third party packages
     'rest_framework',
     'rest_framework.authtoken',
+
+    # internal apps
+    'api',
+    'products',
     'items',
-    
+    'search',
+    'articles',
 ]
 
 MIDDLEWARE = [
@@ -136,9 +143,17 @@ REST_FRAMEWORK = {
         "api.authentication.TokenAuthentication"
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        # Only Get to use for everyone
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 10
+}
+
+
+# aloglia configurations
+# environment varaibles -> djnago-dotenv -> reada .env file
+ALGOLIA = {
+    'APPLICATION_ID': 'LH13BQFD9C',
+    'API_KEY': '648d7c7ccd827a523422ec7e544f3d6d',
+    'INDEX_PREFIX': 'cfe',
 }

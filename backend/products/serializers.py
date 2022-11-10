@@ -15,6 +15,8 @@ class productSerializer(serializers.ModelSerializer):
     title = serializers.CharField(validators=[validators.validate_title_no_hello,
                                               validators.unique_product_title])
 
+
+    body = serializers.CharField(source='content')
     class Meta:
         model = products
         fields = [
@@ -23,11 +25,15 @@ class productSerializer(serializers.ModelSerializer):
             'edit_url',
             'pk',
             'title',
-            'content',
+            'body',
             'price',
-
+            'public',
         ]
-
+    def get_my_user_data(self, obj):
+        return {
+            "username": obj.user.username
+        }
+    
     def get_edit_url(self, obj):
         # return f"/api/v2/products/{obj.pk}/"
         request = self.context.get('request')  # serlf.request

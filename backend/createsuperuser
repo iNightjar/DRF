@@ -1,0 +1,47 @@
+#!/bin/bash
+
+unset Username
+unset Email
+unset Password
+unset UserPassword
+
+
+# Django SuperUserCreation Script
+
+Password=""
+
+echo -e "\e[0;35m############################# \e[0m"
+echo -e "\e[0;35m# SuperUser Creation Script # \e[0m"
+echo -e "\e[0;35m############################# \e[0m"
+
+read -p "USERNAME: " Username
+read -p "EMAIL: " Email
+read -sp "PASSWORD: " UserPassword
+
+
+# Reading Password with * 
+# PasswordVariable="PASSWORD: "
+
+# while IFS= read -p "$PasswordVariable" -r -s -n 1 letter
+# do
+#     # if you press enter then the condition 
+#     # is true and it exit the loop
+#     if [[ $letter == $'\0' ]]
+#     then
+#         break
+#     fi
+    
+#     # the letter will store in password variable
+#     Password=Password+"$letter"
+    
+#     # will printed
+#     PasswordVariable="*"
+# done
+
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$Username', '$Email', '$UserPassword')" | python manage.py shell
+
+
+echo ""
+echo -e "\e[0;35m########################### \e[0m"
+echo -e "\e[0;35m#      SuperUser Created  # \e[0m"
+echo -e "\e[0;35m########################### \e[0m"
