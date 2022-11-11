@@ -28,6 +28,8 @@ class productSerializer(serializers.ModelSerializer):
             'body',
             'price',
             'public',
+            'path',
+            'endpoint',
         ]
     def get_my_user_data(self, obj):
         return {

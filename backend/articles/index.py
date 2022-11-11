@@ -12,6 +12,9 @@ class ARticleIndex(AlgoliaIndex):
         'body',
         'user',
         'publish_date',
+        'path',
+        'endpoint',
+
     ]
 
     settings = {

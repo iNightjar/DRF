@@ -57,3 +57,14 @@ class products(models.Model):
 
     def get_tags_list(self):
         return [random.choice(tags_model_values)]
+
+    @property
+    def path(self):
+        return f"/products/{self.pk}/"
+
+    def get_absolute_url(self):
+        return f"api/products/{self.pk}/"
+
+    @property
+    def endpoint(self):
+        return self.get_absolute_url()

@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from api.serializers import UserProductInlineSerializer
+from api.serializers import UserPublicSerializer
 from .models import Article
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    author = UserProductInlineSerializer(source='user', read_only=True)
+    author = UserPublicSerializer(source='user', read_only=True)
 
     class Meta:
         model = Article
@@ -12,4 +12,7 @@ class ArticleSerializer(serializers.ModelSerializer):
                   'author',
                   'title',
                   'body',
+                  'path',
+                  'endpoint',
+
                   ]
