@@ -49,3 +49,14 @@ class Article(models.Model):
         if self.make_public and self.publish_date is None:
             self.publish_date = timezone.now()
         super().save(*args, **kwargs)
+
+    @property
+    def path(self):
+        return f"/articles/{self.pk}/"
+
+    def get_absolute_url(self):
+        return f"api/articles/{self.pk}/"
+
+    @property
+    def endpoint(self):
+        return self.get_absolute_url()
