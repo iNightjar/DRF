@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/v2/', include('cfehome.routers')),
 
     path('api/search/', include('search.urls')), # search application
-    path('api/articles/', include('search.urls')),  # articles application
+    path('api/articles/', include('articles.urls')),  # articles application
 
     # shopping website
     path('shop/', include('items.urls')),
