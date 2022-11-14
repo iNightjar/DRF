@@ -1,6 +1,5 @@
 const loginForm = document.getElementById("login-form");
-const baseEndPoint = "http://localhost:8000/api/";
-
+const baseEndpoint = "http://localhost:8000/api";
 if (loginForm) {
     // handle this login form
     loginForm.addEventListener("submit", handleLogin);
@@ -9,24 +8,21 @@ if (loginForm) {
 function handleLogin(event) {
     console.log(event);
     event.preventDefault();
-    const loginEndPoint = `${baseEndPoint}`;
+    const loginEndpoint = `${baseEndpoint}/token/`;
     let loginFormData = new FormData(loginForm);
     let loginObjectData = Object.fromEntries(loginFormData);
     let bodyStr = JSON.stringify(loginObjectData);
-    console.log(loginObjectData, bodyStr);
-
     const options = {
         method: "POST",
-        Headers: {
-            ContentType: "application/json",
+        headers: {
+            "Content-Type": "application/json",
         },
         body: bodyStr,
     };
-    fetch(loginEndPoint, options) //  requets.POSTs , returning promise
+    fetch(loginEndpoint, options) //  Promise
         .then((response) => {
-            // handle promise
             console.log(response);
-            return response.json;
+            return response.json();
         })
         .then((x) => {
             console.log(x);
