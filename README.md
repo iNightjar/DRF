@@ -1,5 +1,8 @@
 # DRF - Django Rest Framework APIs
 
+![DRF APIs](https://github.com/iNightjar/DRF/blob/master/drf.gif)
+
+
 <br>
 
 1. Clone the project and make it your own.
