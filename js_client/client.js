@@ -24,10 +24,21 @@ function handleLogin(event) {
             console.log(response);
             return response.json();
         })
-        .then((x) => {
-            console.log(x);
-        })
+        .then(handleAuthData)
         .catch((err) => {
             console.log("err", err);
         });
 }
+
+function handleAuthData(authData) {
+    localStorage.setItem("access", authData.access);
+    localStorage.setItem("refresh", authData.refresh);
+}
+
+// function getProductList() {
+//     const endpoint = `${baseEndpoint}/products/`
+//     const options = {
+//         method: "GET",
+//         headers
+//     }
+// }
