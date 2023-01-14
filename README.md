@@ -2,12 +2,11 @@
 
 ![DRF APIs](https://github.com/iNightjar/DRF/blob/master/drf.gif)
 
-
 <br>
 
 1. Clone the project and make it your own.
 
-```
+```bash
 git clone https://github.com/iNightjar/DRF.git
 cd DNF
 git checkout master
@@ -28,7 +27,7 @@ Use `.\venv\Scripts\activate` if on windows
 
 3. Install requirements
 
-```
+```bash
 (venv) python -m pip install pip --upgrade
 (venv) python -m pip install -r requirements.txt
 ```
